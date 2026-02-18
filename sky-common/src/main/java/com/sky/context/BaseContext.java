@@ -1,5 +1,8 @@
 package com.sky.context;
 
+/**
+ * id存到localThread里，后面方便取出
+ */
 public class BaseContext {
 
     public static ThreadLocal<Long> threadLocal = new ThreadLocal<>();
