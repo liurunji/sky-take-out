@@ -75,13 +75,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         //将DTO对象中的值拷贝到employee对象中
         BeanUtils.copyProperties(employeeDTO,employee);
         //为缺少字段赋值
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+        /*employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());*/
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));  //密码默认为123456 加密后的123456
         employee.setStatus(StatusConstant.ENABLE);  //0禁用 1启用
         //从localThread里面取出在jwt令牌解析时存入的id
-        employee.setCreateUser(BaseContext.getCurrentId());  //设置创建人id
-        employee.setUpdateUser(BaseContext.getCurrentId());  //设置修改人id
+        /*employee.setCreateUser(BaseContext.getCurrentId());  //设置创建人id
+        employee.setUpdateUser(BaseContext.getCurrentId());  //设置修改人id*/
         //调用mapper
          employeeMapper.insert(employee);
     }
@@ -132,9 +132,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         //把employeeDTO中的值拷贝到employee里
         BeanUtils.copyProperties(employeeDTO,employee);
-        //为缺少字段赋值
+        /*//为缺少字段赋值
         employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(BaseContext.getCurrentId());*/
         //调用mapper
         employeeMapper.update(employee);
     }
