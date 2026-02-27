@@ -39,6 +39,10 @@
         order by s.create_time desc
     </select>
 
+    <select id="getByDishId" resultType="com.sky.entity.Setmeal">
+        SELECT s.* FROM  setmeal s left join setmeal_dish sd on s.id = sd.setmeal_id
+        where sd.dish_id = #{dishId}
+    </select>
 
 
 </mapper>

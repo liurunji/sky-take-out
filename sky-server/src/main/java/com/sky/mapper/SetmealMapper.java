@@ -56,4 +56,11 @@ public interface SetmealMapper {
      */
     @AutoFill(OperationType.UPDATE)
     void update(Setmeal setmeal);
+
+    /**
+     * 根据dish_id联查setmeal表和setmeal_dish表返回setmeal对象集合
+     * @param dishId
+     * @return
+     */
+    List<Setmeal> getByDishId(Long dishId);
 }

@@ -6,9 +6,12 @@ import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
+import com.sky.entity.Dish;
 import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
 import com.sky.exception.DeletionNotAllowedException;
+import com.sky.exception.SetmealEnableFailedException;
+import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
@@ -28,6 +31,8 @@ public class SetmealServiceImpl implements SetmealService {
     private SetmealMapper setmealMapper;
     @Autowired
     private SetmealDishMapper setmealDishMapper;
+    @Autowired
+    private DishMapper dishMapper;
 
     /**
      * 新增套餐
@@ -140,5 +145,33 @@ public class SetmealServiceImpl implements SetmealService {
             }
             setmealDishMapper.insertBatch(setmealDishes);
         }
+    }
+
+    /**
+     * 套餐起售、停售
+     *
+     * @param id
+     * @param status
+     */
+    @Override
+    public void startOrStop(Long id, Integer status) {
+        //起售套餐时，如果套餐内包含停售的菜品，则不能起售
+        if (status == StatusConstant.ENABLE) {
+            //通过setmealId联查setmeal_dish表和dish表查询返回dish菜品信息
+            List<Dish> list = dishMapper.getBySetmealId(id);
+            if (list != null && list.size() > 0) {
+                for (Dish dish : list) {
+                    //遍历返回的集合判断其状态
+                    if ( dish.getStatus() == StatusConstant.DISABLE) {
+                        //如果有菜品处于禁售状态则抛出异常
+                       throw new SetmealEnableFailedException(MessageConstant.SETMEAL_ENABLE_FAILED);  //异常抛出就会这个方法就会停止
+                    }
+                }
+            }
+        }
+        Setmeal setmeal = new Setmeal();
+        setmeal.setId(id);
+        setmeal.setStatus(status);
+        setmealMapper.update(setmeal);
     }
 }
