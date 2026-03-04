@@ -48,6 +48,6 @@ public interface CategoryMapper {
      * @param type
      * @return
      */
-    @Select("select  * from category where  type = #{type}")
+
     List<Category> list(Integer type);
 }
