@@ -43,4 +43,16 @@
         where id = #{id}
     </update>
 
+    <select id="pageQuery" resultType="com.sky.entity.Orders">
+        select * from orders
+        <where>
+            <if test="number != null and number != ''">number = #{number}</if>
+            <if test="phone != null and phone != ''">and phone = #{phone}</if>
+            <if test="status != null">and status = #{status}</if>
+            <if test="beginTime != null and endTime != null">and order_time between #{beginTime} and #{endTime}</if>
+            <if test="userId != null">and user_id = #{userId}</if>
+        </where>
+        order by order_time desc
+    </select>
+
 </mapper>
