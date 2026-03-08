@@ -36,4 +36,12 @@ public interface UserMapper {
      * @return
      */
     Integer getSumByMap(Map map);
+
+    /**
+     * 统计用户数量
+     * 和上面的功能是一样的，只是适配导入提供的代码
+     * @param map
+     * @return
+     */
+    Integer countByMap(Map map);
 }

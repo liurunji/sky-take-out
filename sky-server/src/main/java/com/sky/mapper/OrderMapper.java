@@ -79,10 +79,24 @@ public interface OrderMapper {
     Integer getSumByMap(Map map);
 
     /**
+     * 查询订单数量  和上面一样，只是名字以及里面属性名不一样 为了适配
+     * @param map
+     * @return
+     */
+    Integer countByMap(Map map);
+    /**
      * 询销量排名top10接口
      * @param beginTime
      * @param endTime
      * @return
      */
     List<GoodsSalesDTO> getSalesTop10(LocalDateTime beginTime, LocalDateTime endTime);
+
+    /**
+     * 查询当天已完成订单的总金额
+     *和上面一样，只是适配导入的代码
+     * @param map
+     * @return
+     */
+    Double sumByMap2(Map map);
 }
