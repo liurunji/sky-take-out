@@ -55,5 +55,34 @@
         order by order_time desc
     </select>
 
+    <select id="sumByMap" resultType="java.lang.Double">
+        select sum(amount) from orders
+        <where>
+            <if test="status != null">status = #{status}</if>
+            <if test="dayBeginTime != null and dayEndTime != null">
+                and order_time between #{dayBeginTime} and #{dayEndTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSumByMap" resultType="java.lang.Integer">
+        select count(id) from orders
+        <where>
+            <if test="dayBeginTime != null">order_time &gt; #{dayBeginTime}</if>
+            <if test="dayEndTime != null">and order_time &lt; #{dayEndTime}</if>
+            <if test="status != null">and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="getSalesTop10" resultType="com.sky.dto.GoodsSalesDTO">
+        select od.name name,count(od.number) number from order_detail od left join orders o on od.order_id = o.id
+        where status = 5
+        <if test="beginTime != null">and o.order_time &gt; #{beginTime}</if>
+        <if test="endTime != null">and o.order_time &lt; #{endTime}</if>
+        GROUP BY od.dish_id
+        order by number desc
+        limit 10
+    </select>
+
 
 </mapper>
